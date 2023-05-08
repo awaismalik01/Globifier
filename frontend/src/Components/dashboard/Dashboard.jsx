@@ -19,6 +19,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 import img from "../../assets/images/img.jpg";
 import { styles } from "./dashboardStyle.js";
+import Sidebar from "./Sidebar";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -40,28 +41,44 @@ function Dashboard() {
           }}
         >
           <Grid container spacing={4} sx={classes.body}>
-
             <Grid container item={true} sm={12} md={9}>
               <Grid item={true} xs={12} sm={6} md={4} sx={classes.card}>
                 <Box sx={classes.cardBox}>
-                  <Box component={RouterLink} style={classes.imgBox}>
+                  <Box
+                    component={RouterLink}
+                    to={"/post"}
+                    style={classes.imgBox}
+                  >
                     <img src={img} alt={"pic"} style={classes.img} />
                   </Box>
                   <Grid container direction={"column"} sx={classes.textBox}>
-                    <Typography component={RouterLink} sx={classes.category}>
+                    <Typography
+                      component={RouterLink}
+                      to={"/post"}
+                      sx={classes.category}
+                    >
                       Category
                     </Typography>
                     <Typography
                       component={RouterLink}
+                      to={"/post"}
                       variant="h5"
                       sx={classes.title}
                     >
                       Title
                     </Typography>
-                    <Typography component={RouterLink} sx={classes.description}>
+                    <Typography
+                      component={RouterLink}
+                      to={"/post"}
+                      sx={classes.description}
+                    >
                       Description
                     </Typography>
-                    <Typography component={RouterLink} sx={classes.author}>
+                    <Typography
+                      component={RouterLink}
+                      to={"/post"}
+                      sx={classes.author}
+                    >
                       Author
                     </Typography>
                     <Divider />
@@ -80,7 +97,6 @@ function Dashboard() {
                       </Box>
                     </Box>
                   </Grid>
-                  
                 </Box>
               </Grid>
 
@@ -122,7 +138,6 @@ function Dashboard() {
                       </Box>
                     </Box>
                   </Grid>
-                  
                 </Box>
               </Grid>
 
@@ -164,10 +179,8 @@ function Dashboard() {
                       </Box>
                     </Box>
                   </Grid>
-                  
                 </Box>
               </Grid>
-
 
               <Grid
                 item={true}
@@ -186,8 +199,6 @@ function Dashboard() {
               </Grid>
             </Grid>
 
-            
-
             <Grid
               container
               alignContent={"flex-start"}
@@ -195,62 +206,7 @@ function Dashboard() {
               sm={12}
               md={3}
             >
-              <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
-                <Typography>Category</Typography>
-                <Divider sx={classes.line} />
-
-                <Grid container sx={classes.categoryBox}>
-                  <Grid
-                    item={true}
-                    component={RouterLink}
-                    sx={classes.categoryList}
-                  >
-                    Catey 1
-                  </Grid>
-
-                  <Grid item={true} sx={classes.categoryList}>
-                    Categoy 2
-                  </Grid>
-
-                  <Grid item={true} sx={classes.categoryList}>
-                    Category 3
-                  </Grid>
-                  <Grid item={true} sx={classes.categoryList}>
-                    Cay 5
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
-                <Typography>Popular Post</Typography>
-                <Divider sx={classes.line} />
-
-                <Grid
-                  container
-                  direction={"column"}
-                  spacing={1}
-                  sx={classes.categoryBox}
-                >
-                  <Grid item={true} container spacing={2} direction={"row"}>
-                    <Grid item={true}>
-                      <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-                    </Grid>
-                    <Grid item={true}>
-                      <Typography>Title</Typography>
-                    </Grid>
-                  </Grid>
-                  <Divider />
-
-                  <Grid item={true} container spacing={2} direction={"row"}>
-                    <Grid item={true}>
-                      <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-                    </Grid>
-                    <Grid item={true}>
-                      <Typography>Title</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+              <Sidebar />
             </Grid>
           </Grid>
         </Box>
