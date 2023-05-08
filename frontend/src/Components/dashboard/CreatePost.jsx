@@ -7,11 +7,11 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import { DropzoneArea } from "material-ui-dropzone";
 import { Link } from "react-router-dom";
 
-import img from "../../assets/images/img.jpg";
+// import img from "../../assets/images/img.jpg";
 
 function CreatePost() {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [text, setText] = useState();
+  // const [text, setText] = useState();
 
   const onEditorStateChange = function (editorState) {
     setEditorState(editorState);
