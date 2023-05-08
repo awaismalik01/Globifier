@@ -2,21 +2,19 @@ import {
   Box,
   Container,
   CssBaseline,
-  Paper,
   Grid,
   ThemeProvider,
   Typography,
   createTheme,
   responsiveFontSizes,
-  styled,
   Divider,
-  Link,
 } from "@mui/material";
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import img from "../../assets/images/img.jpg";
 import { styles } from "./postStyle.js";
+import Sidebar from "./Sidebar";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -96,62 +94,7 @@ function Post() {
               sm={12}
               md={3}
             >
-              <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
-                <Typography>Category</Typography>
-                <Divider sx={classes.line} />
-
-                <Grid container sx={classes.categoryBox}>
-                  <Grid
-                    item={true}
-                    component={RouterLink}
-                    sx={classes.categoryList}
-                  >
-                    Catey 1
-                  </Grid>
-
-                  <Grid item={true} sx={classes.categoryList}>
-                    Categoy 2
-                  </Grid>
-
-                  <Grid item={true} sx={classes.categoryList}>
-                    Category 3
-                  </Grid>
-                  <Grid item={true} sx={classes.categoryList}>
-                    Cay 5
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
-                <Typography>Popular Post</Typography>
-                <Divider sx={classes.line} />
-
-                <Grid
-                  container
-                  direction={"column"}
-                  spacing={1}
-                  sx={classes.categoryBox}
-                >
-                  <Grid item={true} container spacing={2} direction={"row"}>
-                    <Grid item={true}>
-                      <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-                    </Grid>
-                    <Grid item={true}>
-                      <Typography>Title</Typography>
-                    </Grid>
-                  </Grid>
-                  <Divider />
-
-                  <Grid item={true} container spacing={2} direction={"row"}>
-                    <Grid item={true}>
-                      <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-                    </Grid>
-                    <Grid item={true}>
-                      <Typography>Title</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
+              <Sidebar />
             </Grid>
           </Grid>
         </Box>

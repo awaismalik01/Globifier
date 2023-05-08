@@ -5,6 +5,7 @@ import SignUp from "../Components/signUp/SignUp";
 import SignIn from "../Components/signIn/SignIn";
 import Dashboard from "../Components/dashboard/Dashboard";
 import Post from "../Components/dashboard/Post";
+import CreatePost from "../Components/dashboard/CreatePost";
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
         <Route path={"/"} element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path={"/post"} element={<Post />} />
+          <Route path={"/post/create"} element={<CreatePost />} />
         </Route>
       </Routes>
     </BrowserRouter>
