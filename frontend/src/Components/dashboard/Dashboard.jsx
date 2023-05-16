@@ -8,25 +8,78 @@ import {
   createTheme,
   responsiveFontSizes,
   Divider,
+  Fab,
+  Backdrop,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { useDispatch, useSelector } from "react-redux";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 
-import img from "../../assets/images/img.jpg";
 import { styles } from "./dashboardStyle.js";
 import Sidebar from "./Sidebar";
+import { GetPostsAction, ResetGetPosts } from "../../redux/actions/GetPostsAction";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
 const classes = styles(theme);
 
+const fabStyle = {
+  position: "fixed",
+  bottom: 20,
+  right: 20,
+};
+
 function Dashboard() {
+  const { isLoading, data, error, loginData } = useSelector((state) => ({
+    isLoading: state?.GetPostsReducer?.isLoading,
+    data: state?.GetPostsReducer?.data,
+    error: state?.GetPostsReducer?.error,
+    loginData: state?.LoginReducer?.data,
+  }));
+
+  const [open, setOpen] = useState(false);
+  const [toaster, setToaster] = useState({ state: false, message: "" });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(GetPostsAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!!error?.length) {
+      setToaster({ state: true, message: error });
+      setTimeout(() => {
+        dispatch(ResetGetPosts());
+      }, 1000);
+    }
+  }, [dispatch, error]);
+
+  const postHandle = () => {
+    if (!!loginData) {
+      navigate("/post/create");
+    } else {
+      setOpen(true);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component={"main"} maxWidth={"xl"}>
@@ -40,176 +93,175 @@ function Dashboard() {
             justifyContent: "center",
           }}
         >
-          <Grid container spacing={4} sx={classes.body}>
-            <Grid container item={true} sm={12} md={9}>
-              <Grid item={true} xs={12} sm={6} md={4} sx={classes.card}>
-                <Box sx={classes.cardBox}>
-                  <Box
-                    component={RouterLink}
-                    to={"/post"}
-                    style={classes.imgBox}
+          {!isLoading && (
+            <Grid container spacing={4} sx={classes.body}>
+              <Grid container item={true} sm={12} md={9}>
+                {!!data &&
+                  data?.map((value, index) => {
+                    const image = !!value?.image
+                      ? window.URL.createObjectURL(
+                          new Blob([Int8Array.from(value?.image?.data?.data)], {
+                            type: value?.image?.contentType,
+                          })
+                        )
+                      : "";
+                    return (
+                      <Grid
+                        key={index}
+                        item={true}
+                        xs={12}
+                        sm={6}
+                        md={4}
+                        sx={classes.card}
+                      >
+                        <Box sx={classes.cardBox}>
+                          <Box
+                            component={RouterLink}
+                            to={`/post/${value?._id}`}
+                            style={classes.imgBox}
+                          >
+                            <img src={image} alt={"pic"} style={classes.img} />
+                          </Box>
+                          <Grid
+                            container
+                            direction={"column"}
+                            sx={classes.textBox}
+                          >
+                            <Typography
+                              component={RouterLink}
+                              to={`/post/${value?._id}`}
+                              sx={classes.category}
+                            >
+                              {value?.category}
+                            </Typography>
+                            <Typography
+                              component={RouterLink}
+                              to={`/post/${value?._id}`}
+                              variant="h5"
+                              sx={classes.title}
+                            >
+                              {value?.title}
+                            </Typography>
+                            <Typography
+                              component={RouterLink}
+                              to={`/post/${value?._id}`}
+                              sx={classes.author}
+                            >
+                              {value?.author}
+                            </Typography>
+                            <Divider />
+                            <Box sx={classes.statusBox}>
+                              <Box sx={classes.iconBox}>
+                                <VisibilityIcon sx={classes.icon} />
+                                <Typography variant="subtitle1">
+                                  {value?.views}
+                                </Typography>
+                              </Box>
+                              <Box sx={classes.iconBox}>
+                                <ChatBubbleOutlineIcon sx={classes.icon} />
+                                <Typography variant="subtitle1">
+                                  {value?.comments}
+                                </Typography>
+                              </Box>
+                              <Box sx={classes.iconBox}>
+                                <FavoriteBorderIcon sx={classes.icon} />
+                                <Typography variant="subtitle1">
+                                  {value?.likes}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </Grid>
+                        </Box>
+                      </Grid>
+                    );
+                  })}
+
+                {!!data && (
+                  <Grid
+                    item={true}
+                    container
+                    justifyContent={{ xs: "center", md: "flex-end" }}
+                    alignItems={"center"}
+                    md={12}
+                    sx={classes.card}
                   >
-                    <img src={img} alt={"pic"} style={classes.img} />
-                  </Box>
-                  <Grid container direction={"column"} sx={classes.textBox}>
-                    <Typography
-                      component={RouterLink}
-                      to={"/post"}
-                      sx={classes.category}
-                    >
-                      Category
-                    </Typography>
-                    <Typography
-                      component={RouterLink}
-                      to={"/post"}
-                      variant="h5"
-                      sx={classes.title}
-                    >
-                      Title
-                    </Typography>
-                    <Typography
-                      component={RouterLink}
-                      to={"/post"}
-                      sx={classes.description}
-                    >
-                      Description
-                    </Typography>
-                    <Typography
-                      component={RouterLink}
-                      to={"/post"}
-                      sx={classes.author}
-                    >
-                      Author
-                    </Typography>
-                    <Divider />
-                    <Box sx={classes.statusBox}>
-                      <Box sx={classes.iconBox}>
-                        <VisibilityIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">10</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <ChatBubbleOutlineIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">0</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <FavoriteBorderIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">30</Typography>
-                      </Box>
+                    <ArrowBackIosNewIcon />
+                    <Box sx={[classes.page, true ? classes.activePage : {}]}>
+                      1
                     </Box>
-                  </Grid>
-                </Box>
-              </Grid>
-
-              <Grid item={true} xs={12} sm={6} md={4} sx={classes.card}>
-                <Box sx={classes.cardBox}>
-                  <Box component={RouterLink} style={classes.imgBox}>
-                    <img src={img} alt={"pic"} style={classes.img} />
-                  </Box>
-                  <Grid container direction={"column"} sx={classes.textBox}>
-                    <Typography component={RouterLink} sx={classes.category}>
-                      Category
-                    </Typography>
-                    <Typography
-                      component={RouterLink}
-                      variant="h5"
-                      sx={classes.title}
-                    >
-                      Title
-                    </Typography>
-                    <Typography component={RouterLink} sx={classes.description}>
-                      Description
-                    </Typography>
-                    <Typography component={RouterLink} sx={classes.author}>
-                      Author
-                    </Typography>
-                    <Divider />
-                    <Box sx={classes.statusBox}>
-                      <Box sx={classes.iconBox}>
-                        <VisibilityIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">10</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <ChatBubbleOutlineIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">0</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <FavoriteBorderIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">30</Typography>
-                      </Box>
+                    <Box sx={[classes.page, false ? classes.activePage : {}]}>
+                      2
                     </Box>
+                    <ArrowForwardIosIcon />
                   </Grid>
-                </Box>
-              </Grid>
-
-              <Grid item={true} xs={12} sm={6} md={4} sx={classes.card}>
-                <Box sx={classes.cardBox}>
-                  <Box component={RouterLink} style={classes.imgBox}>
-                    <img src={img} alt={"pic"} style={classes.img} />
-                  </Box>
-                  <Grid container direction={"column"} sx={classes.textBox}>
-                    <Typography component={RouterLink} sx={classes.category}>
-                      Category
-                    </Typography>
-                    <Typography
-                      component={RouterLink}
-                      variant="h5"
-                      sx={classes.title}
-                    >
-                      Title
-                    </Typography>
-                    <Typography component={RouterLink} sx={classes.description}>
-                      Description
-                    </Typography>
-                    <Typography component={RouterLink} sx={classes.author}>
-                      Author
-                    </Typography>
-                    <Divider />
-                    <Box sx={classes.statusBox}>
-                      <Box sx={classes.iconBox}>
-                        <VisibilityIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">10</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <ChatBubbleOutlineIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">0</Typography>
-                      </Box>
-                      <Box sx={classes.iconBox}>
-                        <FavoriteBorderIcon sx={classes.icon} />
-                        <Typography variant="subtitle1">30</Typography>
-                      </Box>
-                    </Box>
-                  </Grid>
-                </Box>
+                )}
               </Grid>
 
               <Grid
-                item={true}
                 container
-                justifyContent={{ xs: "center", md: "flex-end" }}
-                alignItems={"center"}
-                md={12}
-                sx={classes.card}
+                alignContent={"flex-start"}
+                item={true}
+                sm={12}
+                md={3}
               >
-                <ArrowBackIosNewIcon />
-                <Box sx={[classes.page, true ? classes.activePage : {}]}>1</Box>
-                <Box sx={[classes.page, false ? classes.activePage : {}]}>
-                  2
-                </Box>
-                <ArrowForwardIosIcon />
+                <Sidebar />
               </Grid>
             </Grid>
-
-            <Grid
-              container
-              alignContent={"flex-start"}
-              item={true}
-              sm={12}
-              md={3}
-            >
-              <Sidebar />
-            </Grid>
-          </Grid>
+          )}
         </Box>
+
+        <Dialog open={open} onClose={() => setOpen(false)}>
+          <DialogTitle>
+            Ready to share your thoughts? Start posting now!
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You must login or Register to post a blog.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button
+              onClick={() => {
+                setOpen(false);
+                navigate("/login");
+              }}
+            >
+              Login
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Fab
+          color="primary"
+          onClick={postHandle}
+          sx={fabStyle}
+          aria-label="add"
+        >
+          <PostAddIcon />
+        </Fab>
+
+        <Snackbar
+          open={toaster?.state}
+          autoHideDuration={5000}
+          onClose={() => setToaster({ state: false, message: "" })}
+        >
+          <Alert
+            variant="filled"
+            onClose={() => setToaster({ state: false, message: "" })}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            {toaster?.message}
+          </Alert>
+        </Snackbar>
+
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </Container>
     </ThemeProvider>
   );
