@@ -6,18 +6,18 @@ var bodyParser = require("body-parser");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, { useNewUrlParser: true });
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB database connection established successfully");
-});
+// const uri = process.env.ATLAS_URI;
+// mongoose.connect(uri, { useNewUrlParser: true });
+// const connection = mongoose.connection;
+// connection.once("open", () => {
+//   console.log("MongoDB database connection established successfully");
+// });
 
 // const usersRouter = require("./routes/users");
 // const postsRouter = require("./routes/posts");
@@ -35,3 +35,9 @@ connection.once("open", () => {
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
+
+app.get('/', (req, res) => {
+  res.send('Globifier Server API running');
+})
+
+module.exports = app;
