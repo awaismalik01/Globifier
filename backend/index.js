@@ -38,3 +38,5 @@ app.listen(port, () => {
 app.get('/', (req, res) => {
   res.send('Globifier Server API running')
 })
+
+module.exports = app
