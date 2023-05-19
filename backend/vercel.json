@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "index.js",
-      "use": "@now/node"
+      "use": "body-parser",
+      "use": "cors",
+      "use": "dotenv",
+      "use": "express",
+      "use": "mongoose",
+      "use": "jsonwebtoken",
+      "use": "multer",
     }
   ],
   "routes": [
