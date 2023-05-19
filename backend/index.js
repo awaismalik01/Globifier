@@ -3,16 +3,16 @@ const cors = require("cors")
 // const mongoose = require("mongoose")
 var bodyParser = require("body-parser")
 
-// require("dotenv").config()
+require("dotenv").config()
 
 const app = express()
 const port = 4000
 
-// app.use(cors())
-// app.use(express.json())
-// app.use(bodyParser.json())
+app.use(cors())
+app.use(express.json())
+app.use(bodyParser.json())
 
-// const uri = process.env.ATLAS_URI
+const uri = process.env.ATLAS_URI
 // mongoose.connect(uri, { useNewUrlParser: true })
 // const connection = mongoose.connection
 // connection.once("open", () => {
