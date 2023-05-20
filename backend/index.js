@@ -11,12 +11,12 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.json())
 
-const uri = process.env.MONGODB_URI
-mongoose.connect(uri, { useNewUrlParser: true })
-const connection = mongoose.connection
-connection.once("open", () => {
-  console.log("MongoDB database connection established successfully")
-});
+// const uri = process.env.MONGODB_URI
+// mongoose.connect(uri, { useNewUrlParser: true })
+// const connection = mongoose.connection
+// connection.once("open", () => {
+//   console.log("MongoDB database connection established successfully")
+// });
 
 const usersRouter = require("./routes/users")
 const postsRouter = require("./routes/posts")
@@ -27,9 +27,9 @@ app.use("/posts", postsRouter)
 const auth = require("./middleware/auth")
 const role = require("./middleware/role")
 
-app.post("/welcome", auth, role(["admin"]), (req, res) => {
-  res.status(200).send("Welcome 🙌 ")
-});
+// app.post("/welcome", auth, role(["admin"]), (req, res) => {
+//   res.status(200).send("Welcome 🙌 ")
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`)
@@ -39,4 +39,15 @@ app.get('/', (req, res) => {
   res.send('Globifier Server API running')
 })
 
-module.exports = app
+const server = http.createServer(app);
+
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+  console.log("Mongodb connected");
+  server.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+}).catch((err) => {
+  console.log({ err });
+  process.exit(1);
+});
+
