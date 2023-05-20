@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "awais",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
