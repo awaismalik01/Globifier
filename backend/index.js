@@ -1,6 +1,7 @@
 const express = require("express")
 const cors = require("cors")
-// const mongoose = require("mongoose")
+const http = require("http")
+const mongoose = require("mongoose")
 var bodyParser = require("body-parser")
 
 require("dotenv").config()
@@ -41,13 +42,13 @@ app.get('/', (req, res) => {
 
 const server = http.createServer(app);
 
-// mongoose.connect(process.env.MONGODB_URL).then(() => {
-//   console.log("Mongodb connected");
-//   server.listen(port, () => {
-//     console.log(`Server is listening on port ${port}`);
-//   });
-// }).catch((err) => {
-//   console.log({ err });
-//   process.exit(1);
-// });
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+  console.log("Mongodb connected");
+  server.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
+  });
+}).catch((err) => {
+  console.log({ err });
+  process.exit(1);
+});
 
