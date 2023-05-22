@@ -22,7 +22,6 @@ import {
   ResetCreatePost,
 } from "../../redux/actions/CreatePostAction";
 
-// import img from "../../assets/images/img.jpg";
 
 function CreatePost() {
   const { loginData, isLoading, data, error } = useSelector((state) => ({
@@ -55,9 +54,10 @@ function CreatePost() {
 
   useEffect(() => {
     if (!!data) {
+      dispatch(ResetCreatePost());
       navigate("/");
     }
-  }, [data, navigate]);
+  }, [data, dispatch, navigate]);
 
   useEffect(() => {
     if (!!error?.length) {
@@ -76,6 +76,7 @@ function CreatePost() {
   };
 
   const handleSubmit = () => {
+    
     let formDataBody = new FormData();
 
     formDataBody.append("title", formData?.title);
@@ -172,7 +173,6 @@ function CreatePost() {
           marginTop: "8vh",
           cursor: "text",
           width: { md: "60%", xs: "90%" },
-          // minHeight: "50vh",
           padding: "0.3rem",
           border: "1px solid black",
         }}
