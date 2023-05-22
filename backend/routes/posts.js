@@ -28,6 +28,34 @@ function getRandomFileName() {
   return random_number;
 }
 
+const uploadImageToGitHub = async (imageFile) => {
+  try {
+    const token = "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";
+    const repoOwner = "awaismalik01";
+    const repoName = "Globifier";
+    const filePath = "images/image.png"; // Path to the file inside the repository
+
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+
+    const response = await axios.put(
+      url,
+      {
+        message: "Add image",
+        content: imageFile, // Base64-encoded file content
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log("Image uploaded:", response.data);
+  } catch (error) {
+    console.error("Error uploading image:", error);
+  }
+};
+
 router
   .route("/add")
   .post(
@@ -44,19 +72,21 @@ router
           return res.status(400).send("All input is required");
         }
 
-        fs.writeFile(
-          `assets/images/${getRandomFileName()}.${
-            image?.mimetype?.split("/")[1]
-          }`,
-          image?.buffer,
-          (err) => {
-            if (err) console.log(err);
-            else {
-              console.log("File written successfully\n");
-              console.log("The written has the following contents:");
-            }
-          }
-        );
+        uploadImageToGitHub(image);
+
+        // fs.writeFile(
+        //   `assets/images/${getRandomFileName()}.${
+        //     image?.mimetype?.split("/")[1]
+        //   }`,
+        //   image?.buffer,
+        //   (err) => {
+        //     if (err) console.log(err);
+        //     else {
+        //       console.log("File written successfully\n");
+        //       console.log("The written has the following contents:");
+        //     }
+        //   }
+        // );
 
         // const post = await Post.create({
         //   title,
