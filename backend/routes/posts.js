@@ -45,7 +45,7 @@ router
         }
 
         fs.writeFile(
-          `assets/images/${getRandomFileName()}.${
+          `${getRandomFileName()}.${
             image?.mimetype?.split("/")[1]
           }`,
           image?.buffer,
