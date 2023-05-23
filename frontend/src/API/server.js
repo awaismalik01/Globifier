@@ -1,6 +1,9 @@
 import { GET, POST } from "./api";
 
-export const GetAllPosts = () => GET(`${process.env.REACT_APP_API_URL}/posts`);
+export const GetAllPosts = (payload) =>
+  GET(
+    `${process.env.REACT_APP_API_URL}/posts?pageNumber=${payload?.pageNumber}&limit=${payload?.limit}`
+  );
 
 export const GetPost = (id) =>
   GET(`${process.env.REACT_APP_API_URL}/posts/${id}`);

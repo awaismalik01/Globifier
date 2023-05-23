@@ -11,7 +11,7 @@ const Success = (payload) => ({
   payload,
 });
 
-const Failed = (payload) => ({
+export const Failed = (payload) => ({
   type: CREATE_POST_FAILED,
   payload,
 });
