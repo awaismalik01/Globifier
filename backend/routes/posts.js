@@ -1,6 +1,5 @@
 const router = require("express").Router();
 let Post = require("../models/post.modal");
-let fs = require("fs");
 
 const multer = require("multer");
 const upload = multer();
@@ -8,15 +7,36 @@ const upload = multer();
 const { auth } = require("../middleware/auth");
 const role = require("../middleware/role");
 
-router.route("/").get((req, res) => {
-  Post.find()
-    .then((posts) => res.json(posts))
-    .catch((err) => res.status(400).json("Error: " + err));
+router.route("/").get(async (req, res) => {
+  try {
+    const pageNumber = parseInt(req.query.pageNumber) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const result = {};
+    const totalPosts = await Post.countDocuments().exec();
+    const totalPage = !!totalPosts ? parseInt((totalPosts - 1) / limit) + 1 : 0;
+    let startIndex = pageNumber * limit;
+    result.totalPosts = totalPosts;
+
+    result.data = await Post.find()
+      .sort("-createdAt")
+      .skip(startIndex)
+      .limit(limit)
+      .exec();
+
+    result.popularPost = await Post.find().sort("-views").limit(7).exec();
+
+    result.rowsPerPage = limit;
+    result.pageNumber = pageNumber;
+    result.totalPage = totalPage;
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json("Error: " + error);
+  }
 });
 
 router.route("/:id").get((req, res) => {
   console.log(req.params);
-  Post.findOne({ _id: req?.params?.id })
+  Post.findOneAndUpdate({ _id: req?.params?.id }, { $inc: { views: 1 } })
     .then((posts) => res.json(posts))
     .catch((err) => res.status(400).json("Error: " + err));
 });

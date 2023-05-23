@@ -58,13 +58,14 @@ function Dashboard() {
 
   const [open, setOpen] = useState(false);
   const [toaster, setToaster] = useState({ state: false, message: "" });
+  const [page, setPage] = useState(0);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(GetPostsAction());
-  }, [dispatch]);
+    dispatch(GetPostsAction({ pageNumber: page, limit: 9 }));
+  }, [dispatch, page]);
 
   useEffect(() => {
     if (!!error?.length) {
@@ -83,6 +84,10 @@ function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container component={"main"} maxWidth={"xl"}>
@@ -96,11 +101,11 @@ function Dashboard() {
             justifyContent: "center",
           }}
         >
-          {!isLoading && (
+          {!isLoading && !!data && (
             <Grid container spacing={4} sx={classes.body}>
               <Grid container item={true} sm={12} md={9}>
-                {!!data &&
-                  data?.map((value, index) => {
+                {!!data?.data?.length &&
+                  data?.data?.map((value, index) => {
                     return (
                       <Grid
                         key={index}
@@ -185,14 +190,40 @@ function Dashboard() {
                     md={12}
                     sx={classes.card}
                   >
-                    <ArrowBackIosNewIcon />
-                    <Box sx={[classes.page, true ? classes.activePage : {}]}>
-                      1
-                    </Box>
-                    <Box sx={[classes.page, false ? classes.activePage : {}]}>
-                      2
-                    </Box>
-                    <ArrowForwardIosIcon />
+                    <ArrowBackIosNewIcon
+                      sx={[
+                        classes.arrow,
+                        page === 0 ? classes.disabledArrow : {},
+                      ]}
+                      onClick={() => {
+                        if (!(page === 0)) setPage(page - 1);
+                      }}
+                    />
+
+                    {[...Array(data?.totalPage).keys()]?.map((value, index) => (
+                      <Box
+                        key={index}
+                        sx={[
+                          classes.page,
+                          index === page ? classes.activePage : {},
+                        ]}
+                        onClick={() => setPage(index)}
+                      >
+                        {value + 1}
+                      </Box>
+                    ))}
+
+                    <ArrowForwardIosIcon
+                      sx={[
+                        classes.arrow,
+                        page === data?.totalPage - 1
+                          ? classes.disabledArrow
+                          : {},
+                      ]}
+                      onClick={() => {
+                        if (!(page === data?.totalPage - 1)) setPage(page + 1);
+                      }}
+                    />
                   </Grid>
                 )}
               </Grid>
@@ -204,7 +235,7 @@ function Dashboard() {
                 sm={12}
                 md={3}
               >
-                <Sidebar />
+                <Sidebar data={data?.popularPost} />
               </Grid>
             </Grid>
           )}

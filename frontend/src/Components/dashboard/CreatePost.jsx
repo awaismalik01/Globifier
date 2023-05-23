@@ -19,6 +19,7 @@ import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   CreatePostAction,
+  Failed,
   ResetCreatePost,
 } from "../../redux/actions/CreatePostAction";
 import { storage } from "../../API/firebase";
@@ -39,6 +40,7 @@ function CreatePost() {
     category: "",
     image: null,
   });
+  const [imageLoader, setImageLoader] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ function CreatePost() {
 
   useEffect(() => {
     if (!!data) {
+      setImageLoader(false);
       dispatch(ResetCreatePost());
       navigate("/");
     }
@@ -62,6 +65,7 @@ function CreatePost() {
 
   useEffect(() => {
     if (!!error?.length) {
+      setImageLoader(false);
       setToaster({ state: true, message: error });
       setTimeout(() => {
         dispatch(ResetCreatePost());
@@ -98,12 +102,14 @@ function CreatePost() {
     const markup = draftToHtml(rawContentState);
     formDataBody.append("content", markup);
 
-    uploadBytes(imageRef, formData?.image).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        console.log(url);
-        dispatch(CreatePostAction(formDataBody));
-      });
-    });
+    setImageLoader(true);
+    uploadBytes(imageRef, formData?.image)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          dispatch(CreatePostAction(formDataBody));
+        });
+      })
+      .catch((err) => dispatch(Failed("Something Went Wrong")));
   };
 
   return (
@@ -245,6 +251,7 @@ function CreatePost() {
           sx={{ width: { md: "13%", xs: "50%" } }}
           size="large"
           onClick={handleSubmit}
+          disabled={isLoading || imageLoader}
         >
           Post
         </Button>
@@ -267,7 +274,7 @@ function CreatePost() {
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isLoading}
+        open={isLoading || imageLoader}
       >
         <CircularProgress color="inherit" />
       </Backdrop>

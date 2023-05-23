@@ -8,7 +8,7 @@ export const styles = (theme) => ({
 
   cardBox: {
     borderRadius: "0.5rem",
-    height: "100%",
+    // height: "100%",
     backgroundColor: "#f8f9fa",
   },
 
@@ -103,9 +103,20 @@ export const styles = (theme) => ({
     margin: "0.2rem",
     textDecoration: "none",
     color: "white",
+    cursor: "pointer",
   },
 
   activePage: {
     backgroundColor: "#1976d2",
+    cursor: "auto",
+  },
+
+  arrow: {
+    cursor: "pointer",
+  },
+
+  disabledArrow: {
+    cursor: "auto",
+    color: "darkgray",
   },
 });

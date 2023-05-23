@@ -20,10 +20,9 @@ export const ResetGetPosts = () => ({
   type: GET_POSTS_RESET,
 });
 
-export const GetPostsAction = () => (dispatch) => {
+export const GetPostsAction = (payload) => (dispatch) => {
   dispatch({ type: GET_POSTS_LOADING });
-
-  GetAllPosts()
+  GetAllPosts(payload)
     .then((res) => {
       dispatch(Success(res?.data));
     })

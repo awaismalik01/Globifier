@@ -8,7 +8,8 @@ export const styles = (theme) => ({
   },
 
   categoryBox: {
-    padding: theme.spacing(1),
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
   },
 
   categoryList: {
