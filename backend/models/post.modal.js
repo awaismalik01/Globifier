@@ -26,8 +26,10 @@ const postSchema = new Schema(
     },
 
     image: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 3,
     },
 
     email: {

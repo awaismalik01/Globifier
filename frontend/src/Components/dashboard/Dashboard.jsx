@@ -32,7 +32,10 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 
 import { styles } from "./dashboardStyle.js";
 import Sidebar from "./Sidebar";
-import { GetPostsAction, ResetGetPosts } from "../../redux/actions/GetPostsAction";
+import {
+  GetPostsAction,
+  ResetGetPosts,
+} from "../../redux/actions/GetPostsAction";
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -98,13 +101,6 @@ function Dashboard() {
               <Grid container item={true} sm={12} md={9}>
                 {!!data &&
                   data?.map((value, index) => {
-                    const image = !!value?.image
-                      ? window.URL.createObjectURL(
-                          new Blob([Int8Array.from(value?.image?.data?.data)], {
-                            type: value?.image?.contentType,
-                          })
-                        )
-                      : "";
                     return (
                       <Grid
                         key={index}
@@ -120,7 +116,11 @@ function Dashboard() {
                             to={`/post/${value?._id}`}
                             style={classes.imgBox}
                           >
-                            <img src={image} alt={"pic"} style={classes.img} />
+                            <img
+                              src={`${process.env.REACT_APP_FIREBASE_URL}${value?.image}?alt=media`}
+                              alt={"pic"}
+                              style={classes.img}
+                            />
                           </Box>
                           <Grid
                             container
