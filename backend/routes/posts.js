@@ -46,6 +46,7 @@ router
           content,
         });
         post.save();
+
         res.status(201).send("Post Created Successfully");
       } catch (err) {
         res.status(400).send(err);
