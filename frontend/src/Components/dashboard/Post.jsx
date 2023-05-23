@@ -105,60 +105,14 @@ function Post() {
 
                   <Box sx={classes.postImgBox}>
                     <img
-                      src={
-                        !!data && !!data?.image
-                          ? window.URL.createObjectURL(
-                              new Blob(
-                                [Int8Array.from(data?.image?.data?.data)],
-                                {
-                                  type: data?.image?.contentType,
-                                }
-                              )
-                            )
-                          : ""
-                      }
+                      src={`${process.env.REACT_APP_FIREBASE_URL}${data?.image}?alt=media`}
                       alt={"pic"}
                       style={classes.postImg}
                     />
                   </Box>
 
                   <div dangerouslySetInnerHTML={{ __html: data?.content }} />
-
-                  {/* <Box sx={classes.postContent}>
-                    <ul>
-                      <li>
-                        <strong>Main topics: </strong>Apple products
-                      </li>
-                      <li>
-                        <strong>Created on: </strong>WordPress
-                      </li>
-                    </ul>
-                    <p>
-                      Part of the Apple user community, 9to5Mac is a blog
-                      covering news and reviews of Apple products.
-                    </p>
-                    <p>
-                      The website was originally created as a hobby blog
-                      covering news on Macs. Since then, 9to5Mac has become a
-                      blog covering all Apple products and is now part of the
-                      9to5 blog network, which includes other sites such as{" "}
-                      <strong>9to5Google</strong> and <strong>9to5Toys</strong>.
-                    </p>
-                    <p>
-                      <strong>What Can We Learn From This Blog</strong>
-                    </p>
-                    <p>
-                      The blog’s homepage features a colorful and eye-catching
-                      collage of pictures and headlines right below the
-                      navigation bar. When a cursor hovers over images, they
-                      slightly enlarge, enticing people to click.
-                    </p>
-                    <p>
-                      In addition, the blog also uses the infinite scrolling
-                      feature so readers can explore more pages of the website
-                      simply by continuing to scroll down.
-                    </p>
-                  </Box> */}
+                  
                 </Box>
               </Grid>
 

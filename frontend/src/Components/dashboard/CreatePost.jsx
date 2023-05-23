@@ -21,7 +21,8 @@ import {
   CreatePostAction,
   ResetCreatePost,
 } from "../../redux/actions/CreatePostAction";
-
+import { storage } from "../../API/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function CreatePost() {
   const { loginData, isLoading, data, error } = useSelector((state) => ({
@@ -75,20 +76,34 @@ function CreatePost() {
     console.log(markup);
   };
 
+  const getRandomFileName = () => {
+    var timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+    var random = ("" + Math.random()).substring(2, 8);
+    var random_number = timestamp + random;
+    return random_number;
+  };
+
   const handleSubmit = () => {
-    
+    const imageName = getRandomFileName();
+    const imageRef = ref(storage, `images/${imageName}`);
+
     let formDataBody = new FormData();
 
     formDataBody.append("title", formData?.title);
     formDataBody.append("category", formData?.category);
     formDataBody.append("author", loginData?.name);
     formDataBody.append("email", loginData?.email);
-    formDataBody.append("image", formData?.image);
+    formDataBody.append("image", imageName);
     const rawContentState = convertToRaw(editorState.getCurrentContent());
     const markup = draftToHtml(rawContentState);
     formDataBody.append("content", markup);
 
-    dispatch(CreatePostAction(formDataBody));
+    uploadBytes(imageRef, formData?.image).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        console.log(url);
+        dispatch(CreatePostAction(formDataBody));
+      });
+    });
   };
 
   return (
