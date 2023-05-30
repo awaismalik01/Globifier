@@ -93,26 +93,29 @@ function Post() {
             <Grid container spacing={4} sx={classes.body}>
               <Grid container item={true} sm={12} md={9}>
                 <Box sx={classes.post}>
-                  <Typography variant="h3">{data?.title}</Typography>
-                  <Typography variant="h6">{data?.category}</Typography>
+                  <Typography variant="h3">{data?.data?.title}</Typography>
+                  <Typography variant="h6">{data?.data?.category}</Typography>
                   <Box sx={classes.postDate}>
                     <Typography variant="subtitle1">
                       Posted on{" "}
-                      {!!data ? new Date(data?.createdAt).toDateString() : ""}{" "}
-                      by <strong> {data?.author}</strong>
+                      {!!data
+                        ? new Date(data?.data?.createdAt).toDateString()
+                        : ""}{" "}
+                      by <strong> {data?.data?.author}</strong>
                     </Typography>
                   </Box>
 
                   <Box sx={classes.postImgBox}>
                     <img
-                      src={`${process.env.REACT_APP_FIREBASE_URL}${data?.image}?alt=media`}
+                      src={`${process.env.REACT_APP_FIREBASE_URL}${data?.data?.image}?alt=media`}
                       alt={"pic"}
                       style={classes.postImg}
                     />
                   </Box>
 
-                  <div dangerouslySetInnerHTML={{ __html: data?.content }} />
-                  
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data?.data?.content }}
+                  />
                 </Box>
               </Grid>
 
@@ -123,7 +126,7 @@ function Post() {
                 sm={12}
                 md={3}
               >
-                <Sidebar />
+                <Sidebar data={data?.popularPost} />
               </Grid>
             </Grid>
           )}

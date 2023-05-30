@@ -23,7 +23,11 @@ router.route("/").get(async (req, res) => {
       .limit(limit)
       .exec();
 
-    result.popularPost = await Post.find().sort("-views").limit(7).exec();
+    result.popularPost = await Post.find()
+      .select({ _id: 1, title: 1, image: 1 })
+      .sort("-views")
+      .limit(7)
+      .exec();
 
     result.rowsPerPage = limit;
     result.pageNumber = pageNumber;
@@ -34,11 +38,24 @@ router.route("/").get(async (req, res) => {
   }
 });
 
-router.route("/:id").get((req, res) => {
-  console.log(req.params);
-  Post.findOneAndUpdate({ _id: req?.params?.id }, { $inc: { views: 1 } })
-    .then((posts) => res.json(posts))
-    .catch((err) => res.status(400).json("Error: " + err));
+router.route("/:id").get(async (req, res) => {
+  try {
+    const result = {};
+    result.popularPost = await Post.find({ _id: { $ne: req?.params?.id } })
+      .select({ _id: 1, title: 1, image: 1 })
+      .sort("-views")
+      .limit(7)
+      .exec();
+
+    result.data = await Post.findOneAndUpdate(
+      { _id: req?.params?.id },
+      { $inc: { views: 1 } }
+    ).exec();
+
+    return res.json(result);
+  } catch (error) {
+    return res.status(400).json("Error: " + error);
+  }
 });
 
 router
@@ -51,7 +68,6 @@ router
       try {
         const { title, category, author, email, content } = req.body;
         const image = req.file || req.body?.image;
-        console.log(image);
 
         if (!(title && category && author && image && email && content)) {
           return res.status(400).send("All input is required");

@@ -77,7 +77,6 @@ function CreatePost() {
     setEditorState(editorState);
     const rawContentState = convertToRaw(editorState.getCurrentContent());
     const markup = draftToHtml(rawContentState);
-    console.log(markup);
   };
 
   const getRandomFileName = () => {
