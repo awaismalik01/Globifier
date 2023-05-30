@@ -7,7 +7,6 @@ import {
   responsiveFontSizes,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import img from "../../assets/images/img.jpg";
 import { styles } from "./sidebarStyle";
 
 let theme = createTheme();
@@ -18,28 +17,6 @@ const classes = styles(theme);
 function Sidebar({ data }) {
   return (
     <>
-      {/* <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
-        <Typography>Category</Typography>
-        <Divider sx={classes.line} />
-
-        <Grid container sx={classes.categoryBox}>
-          <Grid item={true} component={RouterLink} sx={classes.categoryList}>
-            Catey 1
-          </Grid>
-
-          <Grid item={true} sx={classes.categoryList}>
-            Categoy 2
-          </Grid>
-
-          <Grid item={true} sx={classes.categoryList}>
-            Category 3
-          </Grid>
-          <Grid item={true} sx={classes.categoryList}>
-            Cay 5
-          </Grid>
-        </Grid>
-      </Grid> */}
-
       <Grid item={true} xs={12} sm={12} sx={classes.categoryGrid}>
         <Typography>Popular Post</Typography>
         <Divider sx={classes.line} />
@@ -59,7 +36,11 @@ function Sidebar({ data }) {
                 spacing={2}
                 direction={"row"}
               >
-                <Grid item={true}>
+                <Grid
+                  item={true}
+                  component={RouterLink}
+                  to={`/post/${value?._id}`}
+                >
                   <img
                     src={`${process.env.REACT_APP_FIREBASE_URL}${value?.image}?alt=media`}
                     alt={"pic"}
@@ -67,29 +48,16 @@ function Sidebar({ data }) {
                   />
                 </Grid>
                 <Grid item={true}>
-                  <Typography>{value?.title}</Typography>
+                  <Typography
+                    sx={{ textDecoration: "none" }}
+                    component={RouterLink}
+                    to={`/post/${value?._id}`}
+                  >
+                    {value?.title}
+                  </Typography>
                 </Grid>
               </Grid>
             ))}
-
-          {/* <Grid item={true} container spacing={2} direction={"row"}>
-            <Grid item={true}>
-              <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-            </Grid>
-            <Grid item={true}>
-              <Typography>Title</Typography>
-            </Grid>
-          </Grid>
-          <Divider />
-
-          <Grid item={true} container spacing={2} direction={"row"}>
-            <Grid item={true}>
-              <img src={img} alt={"pic"} style={{ width: "5rem" }} />
-            </Grid>
-            <Grid item={true}>
-              <Typography>Title</Typography>
-            </Grid>
-          </Grid> */}
         </Grid>
       </Grid>
     </>

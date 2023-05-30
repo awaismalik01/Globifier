@@ -48,6 +48,63 @@ const fabStyle = {
   right: 20,
 };
 
+function Card({ value }) {
+  return (
+    <Box sx={classes.cardBox}>
+      <Box
+        component={RouterLink}
+        to={`/post/${value?._id}`}
+        style={classes.imgBox}
+      >
+        <img
+          src={`${process.env.REACT_APP_FIREBASE_URL}${value?.image}?alt=media`}
+          alt={"pic"}
+          style={classes.img}
+        />
+      </Box>
+      <Grid container direction={"column"} sx={classes.textBox}>
+        <Typography
+          component={RouterLink}
+          to={`/post/${value?._id}`}
+          sx={classes.category}
+        >
+          {value?.category}
+        </Typography>
+        <Typography
+          component={RouterLink}
+          to={`/post/${value?._id}`}
+          variant="h5"
+          sx={classes.title}
+        >
+          {value?.title}
+        </Typography>
+        <Typography
+          component={RouterLink}
+          to={`/post/${value?._id}`}
+          sx={classes.author}
+        >
+          {value?.author}
+        </Typography>
+        <Divider />
+        <Box sx={classes.statusBox}>
+          <Box sx={classes.iconBox}>
+            <VisibilityIcon sx={classes.icon} />
+            <Typography variant="subtitle1">{value?.views}</Typography>
+          </Box>
+          <Box sx={classes.iconBox}>
+            <ChatBubbleOutlineIcon sx={classes.icon} />
+            <Typography variant="subtitle1">{value?.comments}</Typography>
+          </Box>
+          <Box sx={classes.iconBox}>
+            <FavoriteBorderIcon sx={classes.icon} />
+            <Typography variant="subtitle1">{value?.likes}</Typography>
+          </Box>
+        </Box>
+      </Grid>
+    </Box>
+  );
+}
+
 function Dashboard() {
   const { isLoading, data, error, loginData } = useSelector((state) => ({
     isLoading: state?.GetPostsReducer?.isLoading,
@@ -84,9 +141,6 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -115,68 +169,7 @@ function Dashboard() {
                         md={4}
                         sx={classes.card}
                       >
-                        <Box sx={classes.cardBox}>
-                          <Box
-                            component={RouterLink}
-                            to={`/post/${value?._id}`}
-                            style={classes.imgBox}
-                          >
-                            <img
-                              src={`${process.env.REACT_APP_FIREBASE_URL}${value?.image}?alt=media`}
-                              alt={"pic"}
-                              style={classes.img}
-                            />
-                          </Box>
-                          <Grid
-                            container
-                            direction={"column"}
-                            sx={classes.textBox}
-                          >
-                            <Typography
-                              component={RouterLink}
-                              to={`/post/${value?._id}`}
-                              sx={classes.category}
-                            >
-                              {value?.category}
-                            </Typography>
-                            <Typography
-                              component={RouterLink}
-                              to={`/post/${value?._id}`}
-                              variant="h5"
-                              sx={classes.title}
-                            >
-                              {value?.title}
-                            </Typography>
-                            <Typography
-                              component={RouterLink}
-                              to={`/post/${value?._id}`}
-                              sx={classes.author}
-                            >
-                              {value?.author}
-                            </Typography>
-                            <Divider />
-                            <Box sx={classes.statusBox}>
-                              <Box sx={classes.iconBox}>
-                                <VisibilityIcon sx={classes.icon} />
-                                <Typography variant="subtitle1">
-                                  {value?.views}
-                                </Typography>
-                              </Box>
-                              <Box sx={classes.iconBox}>
-                                <ChatBubbleOutlineIcon sx={classes.icon} />
-                                <Typography variant="subtitle1">
-                                  {value?.comments}
-                                </Typography>
-                              </Box>
-                              <Box sx={classes.iconBox}>
-                                <FavoriteBorderIcon sx={classes.icon} />
-                                <Typography variant="subtitle1">
-                                  {value?.likes}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </Grid>
-                        </Box>
+                        <Card value={value} />
                       </Grid>
                     );
                   })}
