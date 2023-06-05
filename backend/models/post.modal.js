@@ -2,6 +2,28 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const commentSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+
+  name: {
+    type: String,
+    required: true,
+  },
+
+  comment: {
+    type: String,
+    required: true,
+  },
+
+  date: {
+    type: String,
+    required: true,
+  },
+});
+
 const postSchema = new Schema(
   {
     title: {
@@ -52,11 +74,7 @@ const postSchema = new Schema(
       default: 0,
     },
 
-    comments: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
+    comments: [commentSchema],
 
     likes: {
       type: Number,

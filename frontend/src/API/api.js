@@ -6,4 +6,6 @@ export const POST = (url, payload, headers = {}) => {
   return axios.post(url, payload, headers);
 };
 
-export const PATCH = (url, payload) => axios.patch(url, payload);
+export const PATCH = (url, payload, headers = {}) => {
+  return axios.patch(url, payload, headers);
+};
