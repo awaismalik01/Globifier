@@ -93,7 +93,9 @@ function Card({ value }) {
           </Box>
           <Box sx={classes.iconBox}>
             <ChatBubbleOutlineIcon sx={classes.icon} />
-            <Typography variant="subtitle1">{value?.comments}</Typography>
+            <Typography variant="subtitle1">
+              {value?.comments?.length}
+            </Typography>
           </Box>
           <Box sx={classes.iconBox}>
             <FavoriteBorderIcon sx={classes.icon} />
@@ -140,7 +142,6 @@ function Dashboard() {
       setOpen(true);
     }
   };
-
 
   return (
     <ThemeProvider theme={theme}>

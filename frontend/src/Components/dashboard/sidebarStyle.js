@@ -1,10 +1,10 @@
 export const styles = (theme) => ({
   categoryGrid: {
-    // padding: theme.spacing(1),
+    padding: theme.spacing(2),
   },
 
   line: {
-    border: "0.1rem solid",
+    border: "2px solid black",
   },
 
   categoryBox: {
@@ -19,18 +19,5 @@ export const styles = (theme) => ({
     margin: "0.1rem",
     textDecoration: "none",
     color: "white",
-  },
-
-  page: {
-    backgroundColor: "grey",
-    padding: "0.2rem 0.5rem",
-    borderRadius: "0.2rem",
-    margin: "0.2rem",
-    textDecoration: "none",
-    color: "white",
-  },
-
-  activePage: {
-    backgroundColor: "#1976d2",
   },
 });

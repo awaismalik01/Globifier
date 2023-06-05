@@ -1,5 +1,6 @@
 const router = require("express").Router();
 let Post = require("../models/post.modal");
+let Comment = require("../models/post.modal");
 
 const multer = require("multer");
 const upload = multer();
@@ -53,6 +54,27 @@ router.route("/:id").get(async (req, res) => {
     ).exec();
 
     return res.json(result);
+  } catch (error) {
+    return res.status(400).json("Error: " + error);
+  }
+});
+
+router.route("/:id").patch(async (req, res) => {
+  try {
+    let comments = await Post.findById(req?.params?.id)
+      .select({ comments: 1, _id: 0 })
+      .exec();
+    comments["comments"]?.push(req?.body);
+    Post.findByIdAndUpdate(req?.params?.id, comments)
+      .then((post) => {
+        if (!post) {
+          return res.status(404).send();
+        }
+        res.send(post);
+      })
+      .catch((error) => {
+        return res.status(404).send(error);
+      });
   } catch (error) {
     return res.status(400).json("Error: " + error);
   }

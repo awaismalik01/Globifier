@@ -1,11 +1,12 @@
 export const styles = (theme) => ({
   body: {
     width: "90%",
+    backgroundColor: "whitesmoke",
   },
 
   post: {
-    padding: theme.spacing(4),
-    backgroundColor: "whitesmoke",
+    padding: theme.spacing(2),
+    border: "2px solid black",
     width: "100%",
   },
 
@@ -22,9 +23,7 @@ export const styles = (theme) => ({
 
   postImg: { width: "100%", height: "100%" },
 
-  postContent: {
-
-  },
+  postContent: {},
 
   categoryGrid: {
     // padding: theme.spacing(1),
@@ -32,6 +31,27 @@ export const styles = (theme) => ({
 
   line: {
     border: "0.1rem solid",
+  },
+
+  iconBox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "8%",
+    height: "2rem",
+    cursor: "pointer",
+
+    "&:hover": {
+      border: "2px solid #288ce4",
+      borderRadius: "1rem",
+      "& .icon": {
+        color: "#288ce4",
+      },
+    },
+  },
+
+  icon: {
+    mr: 1,
   },
 
   categoryBox: {

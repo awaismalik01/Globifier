@@ -5,6 +5,7 @@ import LoginReducer from "./LoginReducer";
 import GetPostsReducer from "./GetPostsReducer";
 import GetPostReducer from "./GetPostReducer";
 import CreatePostReducer from "./CreatePostReducer";
+import CreateCommentReducer from "./CreateCommentReducer";
 
 const rootReducer = combineReducers({
   RegisterReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   GetPostsReducer,
   GetPostReducer,
   CreatePostReducer,
+  CreateCommentReducer,
 });
 
 export default rootReducer;

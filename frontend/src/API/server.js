@@ -1,4 +1,4 @@
-import { GET, POST } from "./api";
+import { GET, PATCH, POST } from "./api";
 
 export const GetAllPosts = (payload) =>
   GET(
@@ -10,6 +10,13 @@ export const GetPost = (id) =>
 
 export const CreatePost = (payload) =>
   POST(`${process.env.REACT_APP_API_URL}/posts/add`, payload, {
+    headers: {
+      Authorization: "Bearer" + localStorage.getItem("token"),
+    },
+  });
+
+export const CreateComment = (id, payload) =>
+  PATCH(`${process.env.REACT_APP_API_URL}/posts/${id}`, payload, {
     headers: {
       Authorization: "Bearer" + localStorage.getItem("token"),
     },
