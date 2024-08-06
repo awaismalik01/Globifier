@@ -1,10 +1,51 @@
-# Getting Started with Create React App
+# Frontend Setup
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1. Installing Packages
 
-## Available Scripts
+```
+npm install
+```
 
-In the project directory, you can run:
+## 2. Setup Firebase project
+
+Data storage(bucket) will be required to store images. You have to create your own Firebase Project.
+
+[Firebase setup reference](https://samuelbankole.medium.com/google-firebase-in-react-1acc64516788)
+
+## 3. Setup Enviroment
+
+In the root directory of your React project (In frontend folder), create a file named `.env`.
+You can create this file manually or by using a command-line tool.
+
+Define environment variables: In the `.env` file, you can define environment variables using the KEY=VALUE syntax.
+
+### Create environment variables (KEY=VALUE pairs)
+
+```
+REACT_APP_FIREBASE_API_KEY=apiKey
+REACT_APP_FIREBASE_AUTH_DOMAIN=authDomain
+REACT_APP_FIREBASE_PROJECT_ID=projectId
+REACT_APP_FIREBASE_STORAGE_BUCKET=storageBucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
+REACT_APP_FIREBASE_APP_ID=appId
+REACT_APP_FIREBASE_MEASUREMENT_ID=measurementId
+REACT_APP_FIREBASE_URL=Firebase-Image-Bucket-URL
+
+REACT_APP_API_URL=Backend-URL
+```
+
+Values can be retrieved from Step 2 in project setting, also provided in reference.
+**Backend URL** will be the backend server `http://localhost:####` any port depending being used by backend.
+
+Following environment variables are already being used in the React project.
+
+For [React .env reference](https://medium.com/@bhairabpatra.iitd/env-file-in-react-js-09d11dc77924)
+
+## 4. Starting the Frontend
+
+Before running the frontend, make sure backend is running.
+
+Run the following command:
 
 ### `npm start`
 
@@ -13,58 +54,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
